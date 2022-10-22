@@ -1,39 +1,35 @@
 class UserGeneratePdfService {
   constructor() { }
   async generatePDF(dataUser) {
-    console.log("DataUserService", dataUser.result);
-    const dataCompletePerson = dataUser.result;
-    console.log("DataCompletePerson", dataUser);
-    const res = JSON.parse(dataUser);
-    console.log("res", res);
-    for (const key in res){
-      if(obj.hasOwnProperty(key)){
-        console.log(`${key} : ${res[key]}`)
-      }
-    }
+    const dataCompletePerson = dataUser;
+    console.log("dataUserPDF", dataCompletePerson);
 
 
-    let bodyHtml = "";
+
+    return response;
+  }
+
+  async generaStructureCleanData(dataUser){
     try {
-      let userDataClean = bodyHtml;
+      const dataCompletePerson = dataUser;
+      let userDataClean = {};
       dataCompletePerson.forEach(element => {
-        userDataClean = userDataClean.replace(["Nombres"], element?.Nombres ?? string.Empty);
-        userDataClean = userDataClean.replace(["Apellidos"], element?.Apellidos ?? string.Empty);
-        userDataClean = userDataClean.replace(["Documento"], element?.Documento ?? string.Empty);
-        userDataClean = userDataClean.replace(["NombresPadre"], element?.NombresPadre ?? string.Empty);
-        userDataClean = userDataClean.replace(["ApellidosPadre"], element?.ApellidosPadre ?? string.Empty);
-        userDataClean = userDataClean.replace(["NombresMadre"], element?.NombresMadre ?? string.Empty);
-        userDataClean = userDataClean.replace(["ApellidosMadre"], element?.ApellidosMadre ?? string.Empty);
+        userDataClean.nuip = element.nuip != undefined ? element.nuip : "";
+        userDataClean.primerApellido =  element.primerApellido != undefined ? element.primerApellido : "";
+        userDataClean.segundoApellido = element.segundoApellido != undefined ? element.segundoApellido : "";
+        userDataClean.primerNombre = element.primerNombre != undefined ? element.primerNombre : "";
+        userDataClean.segundoNombre = element.segundoNombre != undefined ? element.segundoNombre : "";
+        userDataClean.municipioExpedicion = element.municipioExpedicion != undefined ? element.municipioExpedicion : "";
+        userDataClean.departamentoExpedicion = element.departamentoExpedicion != undefined ? element.departamentoExpedicion : "";
+        userDataClean.fechaExpedicion = element.fechaExpedicion != undefined ? element.fechaExpedicion : "";
       });
-      let base64 = ConvertHtmlToPdf(bodyHtml, footerHtml, pDataTemplate.LicenseIronPDF);
-      return base64;
+      console.log("dataClean" , userDataClean);
+      return userDataClean;
+  
     } catch (error) {
       console.error(error);
     }
-    return response;
   }
 }
-
-
 
 module.exports = UserGeneratePdfService;

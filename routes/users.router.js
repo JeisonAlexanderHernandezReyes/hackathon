@@ -23,12 +23,12 @@ router.post('/:getUserPdf',
       const urlANI = process.env.URLANI;
 
       //CONSTRUCCIÓN DE LA PETICIÓN A END POINT DE ANI
-      const res = await axios.get(urlANI + body, { headers: { Authorization: process.env.TOKEN } });
-      console.log("res",res.data);
-      const dataCompletePerson = await service.generatePDF(res.data);
-      //res.data.statusCode(200).json(res);
+      const resultDataAPI = await axios.get(urlANI + body, { headers: { Authorization: process.env.TOKEN } });
+      const dataClean = await service.generaStructureCleanData(resultDataAPI.data.result);
+      const dataCompletePerson = await service.generatePDF(dataClean);
+      res.status(200).json(dataCompletePerson);
     } catch (error) {
-      next(error);
+      res.status(400).json(error.message);
     }
   }
 );
